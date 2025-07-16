@@ -1,7 +1,5 @@
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.math.BigDecimal;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,7 +15,7 @@ class ProductRepoTest {
 
         //THEN
         List<Product> expected = new ArrayList<>();
-        expected.add(new Product("1", "Apfel"));
+        expected.add(new Product("1", "Apfel", new Stock(Stock.UnitType.PIECE, new BigDecimal(20))));
         assertEquals(actual, expected);
     }
 
@@ -27,26 +25,26 @@ class ProductRepoTest {
         ProductRepo repo = new ProductRepo();
 
         //WHEN
-        Product actual = repo.getProductById("1");
+        Optional<Product> actual = repo.getProductById("1");
 
         //THEN
-        Product expected = new Product("1", "Apfel");
-        assertEquals(actual, expected);
+        Product expected = new Product("1", "Apfel", new Stock(Stock.UnitType.PIECE, new BigDecimal(20)));
+        assertEquals(actual, Optional.of(expected));
     }
 
     @org.junit.jupiter.api.Test
     void addProduct() {
         //GIVEN
         ProductRepo repo = new ProductRepo();
-        Product newProduct = new Product("2", "Banane");
+        Product newProduct = new Product("2", "Banane", new Stock(Stock.UnitType.PIECE, new BigDecimal(20)));
 
         //WHEN
         Product actual = repo.addProduct(newProduct);
 
         //THEN
-        Product expected = new Product("2", "Banane");
+        Product expected = new Product("2", "Banane", new Stock(Stock.UnitType.PIECE, new BigDecimal(20)));
         assertEquals(actual, expected);
-        assertEquals(repo.getProductById("2"), expected);
+        assertEquals(repo.getProductById("2"), Optional.of(expected));
     }
 
     @org.junit.jupiter.api.Test
@@ -58,6 +56,6 @@ class ProductRepoTest {
         repo.removeProduct("1");
 
         //THEN
-        assertNull(repo.getProductById("1"));
+        assert(repo.getProductById("1").isEmpty());
     }
 }

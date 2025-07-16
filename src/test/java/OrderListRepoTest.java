@@ -1,5 +1,6 @@
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,7 @@ class OrderListRepoTest {
         //GIVEN
         OrderListRepo repo = new OrderListRepo();
 
-        Product product = new Product("1", "Apfel");
+        Product product = new Product("1", "Apfel", new Stock(Stock.UnitType.PIECE, new BigDecimal(20)));
         Order newOrder = new Order("1", List.of(product));
         repo.addOrder(newOrder);
 
@@ -21,7 +22,7 @@ class OrderListRepoTest {
 
         //THEN
         List<Order> expected = new ArrayList<>();
-        Product product1 = new Product("1", "Apfel");
+        Product product1 = new Product("1", "Apfel", new Stock(Stock.UnitType.PIECE, new BigDecimal(20)));
         expected.add(new Order("1", List.of(product1)));
 
         assertEquals(actual, expected);
@@ -32,7 +33,7 @@ class OrderListRepoTest {
         //GIVEN
         OrderListRepo repo = new OrderListRepo();
 
-        Product product = new Product("1", "Apfel");
+        Product product = new Product("1", "Apfel", new Stock(Stock.UnitType.PIECE, new BigDecimal(20)));
         Order newOrder = new Order("1", List.of(product));
         repo.addOrder(newOrder);
 
@@ -40,7 +41,7 @@ class OrderListRepoTest {
         Order actual = repo.getOrderById("1");
 
         //THEN
-        Product product1 = new Product("1", "Apfel");
+        Product product1 = new Product("1", "Apfel", new Stock(Stock.UnitType.PIECE, new BigDecimal(20)));
         Order expected = new Order("1", List.of(product1));
 
         assertEquals(actual, expected);
@@ -50,14 +51,14 @@ class OrderListRepoTest {
     void addOrder() {
         //GIVEN
         OrderListRepo repo = new OrderListRepo();
-        Product product = new Product("1", "Apfel");
+        Product product = new Product("1", "Apfel", new Stock(Stock.UnitType.PIECE, new BigDecimal(20)));
         Order newOrder = new Order("1", List.of(product));
 
         //WHEN
         Order actual = repo.addOrder(newOrder);
 
         //THEN
-        Product product1 = new Product("1", "Apfel");
+        Product product1 = new Product("1", "Apfel", new Stock(Stock.UnitType.PIECE, new BigDecimal(20)));
         Order expected = new Order("1", List.of(product1));
         assertEquals(actual, expected);
         assertEquals(repo.getOrderById("1"), expected);
